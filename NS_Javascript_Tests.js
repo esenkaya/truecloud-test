@@ -273,18 +273,61 @@ for (c in employees) employees[c]['2013 Revenue'] = "";   // RESETTING OLD REVEN
 // 5. Write two questsions that are similar to problems 1-4. This should demonstrate an understanding of similar business processes. 
 //    (Feel free to use the three variables provided, or construct your own)
 
-// Question 5 : List employees info
-function employeeList() {
-	var i;
-	var employeelist ="";
-		employeelist += "<table><th>Internal ID</th><th>Name</th><th>Email</th><th>Birthdate</th>";
-	for (i in employees){
+// Question 5 : Employee Income
+
+function employeeIncome() {
+
+var i;
+var employeeIncome ="";
+for (c in employees) employees[c]['2013 Revenue'] = "";   // RESETTING OLD REVENUE2013 VALUES
+
+//TABLE HEADER
+	employeeIncome += "<table><th>Internal ID</th><th>Name</th><th>Supervisor</th><th>Employee Income</th>"; 
+	
+//CALCULATING EACH EMPLOYEE'S REVENUE	
+	for (i in employees){    
+	
+		for (r in revenue2013) {
+			
+			if (employees[i].internalid == revenue2013[r].Employee) {
+			
+				employees[i]['2013 Revenue']  += Number(revenue2013[r].amount);
+				employees[i]['2013 Revenue'] = Number(employees[i]['2013 Revenue']);
+				
+			}
+			
+			
+		}
 		
-		employeelist += "<tr><td>" + employees[i].internalid + "</td><td>" + employees[i].name + "</td><td>"  +  employees[i].email + "</td><td>"  + employees[i].birthdate +"</td></tr>";
-		document.getElementById("employeeList").innerHTML = employeelist;
+// CALCULATING SUPERVISOR'S REVENUE
+		if (employees[i].supervisor) {     
+			
+			employees[employees[i].supervisor-1]['2013 Revenue'] += employees[i]['2013 Revenue'];
+			employees[employees[i].supervisor-1]['2013 Revenue'] = parseInt(employees[employees[i].supervisor-1]['2013 Revenue']);
+		}
+		
 	}
-		employeelist +="</table>";
+
+// POPULATING COMMISSION AND BONUS BY EMPLOYEES AND SUPERVISORS
+	for (i in employees) {
+	
+		var s1 = commissionRules[i].percentage.search("%");
+		employees[i].commision = (employees[i]['2013 Revenue'] * commissionRules[i].percentage.slice(0,s1))/100;
 		
+		if (employees[i]['2012 Revenue'] < employees[i]['2013 Revenue'].toFixed(2)) {
+			employees[i].bonus = commissionRules[i].bonus;
+		} else employees[i].bonus = "";
+		
+		employees[i].totalIncome = Number(employees[i]['2012 Revenue']) +  Number(employees[i]['2013 Revenue'].toFixed(2)) + Number(employees[i].commision + Number(employees[i].bonus));
+		employeeIncome += "<tr><td>" + employees[i].internalid + "</td><td>" + employees[i].name + "</td><td>" + employees[i].supervisor + "</td><td>" + employees[i].totalIncome + "</td></tr>";
+		
+		console.log(employees[i].internalid , revenue2013[r].Employee , employees[i]['2013 Revenue'], employees[i].supervisor, employees[i].commision);
+	}
+		
+// SENDING DATA TO HTML
+		document.getElementById("employeeIncome").innerHTML = employeeIncome;
+		employeeIncome +="</table>";
+	
 }
 
 	
