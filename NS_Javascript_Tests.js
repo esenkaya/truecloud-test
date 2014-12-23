@@ -46,7 +46,8 @@ var commissionRules = [
 	// Write solutions as efficiently as possible
 	// Explain what tools were used during this practice - what program did you use to write this, what tool(s) did you use to debug, what references did you use if any were necessary?
 
-
+	
+	
 // 1. Assume that today is 1/1/2014, update each employee's record to indicate the number of days until their birthday. Store the resulting value in a new key on the employee object.
 
 // Answer 1 : Birthday counter from year to date
@@ -200,7 +201,7 @@ for (c in employees) employees[c]['2013 Revenue'] = "";   // RESETTING OLD REVEN
 	}
 
 // POPULATING REVENUE 2013 BY EMPLOYEES AND SUPERVISORS
-	for (i in employees) update2013Revenue += "<tr><td>" + employees[i].internalid + "</td><td>" + employees[i].name + "</td><td>" + employees[i].supervisor + "</td><td>" + employees[i]['2012 Revenue'] + "</td><td>" + employees[i]['2013 Revenue'].toFixed(2) + "</td></tr>";
+	for (i in employees) update2013Revenue += "<tr><td>" + employees[i].internalid + "</td><td>" + employees[i].name + "</td><td>" + employees[i].supervisor + "</td><td>" + "$" + employees[i]['2012 Revenue'].replace(/\d(?=(\d{3})+\.)/g, '$&,') + "</td><td>" + "$" + employees[i]['2013 Revenue'].toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + "</td></tr>";
 	
 		
 // SENDING DATA TO HTML
@@ -258,7 +259,8 @@ for (c in employees) employees[c]['2013 Revenue'] = "";   // RESETTING OLD REVEN
 			employees[i].bonus = commissionRules[i].bonus;
 		} else employees[i].bonus = "";
 		
-		employeeCommision += "<tr><td>" + employees[i].internalid + "</td><td>" + employees[i].name + "</td><td>" + employees[i].supervisor + "</td><td>" + employees[i]['2012 Revenue'] + "</td><td>" + employees[i]['2013 Revenue'].toFixed(2) + "</td><td>" + employees[i].commision.toFixed(2) + "</td><td>" + employees[i].bonus + "</td></tr>";
+		if (employees[i].bonus == "") employees[i].bonus = "0.00";
+		employeeCommision += "<tr><td>" + employees[i].internalid + "</td><td>" + employees[i].name + "</td><td>" + employees[i].supervisor + "</td><td>" + "$" + employees[i]['2012 Revenue'].replace(/\d(?=(\d{3})+\.)/g, '$&,') + "</td><td>" + "$" + employees[i]['2013 Revenue'].toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + "</td><td>" + "$" + employees[i].commision.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + "</td><td>" + "$" + employees[i].bonus.replace(/\d(?=(\d{3})+\.)/g, '$&,') + "</td></tr>";
 		
 		console.log(employees[i].internalid , revenue2013[r].Employee , employees[i]['2013 Revenue'], employees[i].supervisor, employees[i].commision);
 	}
@@ -319,7 +321,7 @@ for (c in employees) employees[c]['2013 Revenue'] = "";   // RESETTING OLD REVEN
 		} else employees[i].bonus = "";
 		
 		employees[i].totalIncome = Number(employees[i]['2012 Revenue']) +  Number(employees[i]['2013 Revenue'].toFixed(2)) + Number(employees[i].commision + Number(employees[i].bonus));
-		employeeIncome += "<tr><td>" + employees[i].internalid + "</td><td>" + employees[i].name + "</td><td>" + employees[i].supervisor + "</td><td>" + employees[i].totalIncome + "</td></tr>";
+		employeeIncome += "<tr><td>" + employees[i].internalid + "</td><td>" + employees[i].name + "</td><td>" + employees[i].supervisor + "</td><td>" + "$" + employees[i].totalIncome.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + "</td></tr>";
 		
 		console.log(employees[i].internalid , revenue2013[r].Employee , employees[i]['2013 Revenue'], employees[i].supervisor, employees[i].commision);
 	}
@@ -389,7 +391,7 @@ for (c in employees) employees[c]['2013 Revenue'] = "";   // RESETTING OLD REVEN
 		}
 	
 	
-		ratioRevenue += "<tr><td>" + employees[i].internalid + "</td><td>" + employees[i].name + "</td><td>" + employees[i].supervisor + "</td><td>" + employees[i]['2012 Revenue'] + "</td><td>" + employees[i]['2013 Revenue'].toFixed(2) + "</td><td>" + employees[i].ratio + "</td></tr>";
+		ratioRevenue += "<tr><td>" + employees[i].internalid + "</td><td>" + employees[i].name + "</td><td>" + employees[i].supervisor + "</td><td>" + "$" + employees[i]['2012 Revenue'].replace(/\d(?=(\d{3})+\.)/g, '$&,') + "</td><td>" + "$" + employees[i]['2013 Revenue'].toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + "</td><td>" + employees[i].ratio + "</td></tr>";
 	
 	}
 		
